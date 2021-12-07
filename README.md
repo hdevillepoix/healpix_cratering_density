@@ -57,6 +57,9 @@ see options usign the help menu
 ```python create_MOC_map.py -h```
 
 
+This will create two outputs: one MOC `density` map, and one MOC `count` map.
+These maps are usually 10-100x smaller than the corresponding NESTED map.
+
 
 ## visualisation
 
