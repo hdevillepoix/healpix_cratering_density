@@ -23,7 +23,7 @@ def main(nested_map, N):
     npix = hp.nside2npix(nside)
 
     uniq_map_count = nested_map.replace('nested','uniq').replace('map','count_map')
-    uniq_map_dens = nested_map.replace('nested','uniq').replace('map','count_map')
+    uniq_map_dens = nested_map.replace('nested','uniq').replace('map','density_map')
 
 
     def split_fun(start, stop):
