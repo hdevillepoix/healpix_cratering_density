@@ -21,9 +21,12 @@ def main(nested_map, N):
     order = m.order
     nside = hp.order2nside(order)
     npix = hp.nside2npix(nside)
-
-    uniq_map_count = nested_map.replace('nested','uniq').replace('map','count_map')
-    uniq_map_dens = nested_map.replace('nested','uniq').replace('map','density_map')
+    
+    err_percent = 1./(N)**0.5*100
+    err_percent_str = f'_{err_percent:.0f}pc-error'
+    
+    uniq_map_count = nested_map.replace('nested','uniq').replace('map','count_map' + err_percent_str)
+    #uniq_map_dens = nested_map.replace('nested','uniq').replace('map','density_map' + err_percent_str)
 
 
     def split_fun(start, stop):
@@ -37,7 +40,8 @@ def main(nested_map, N):
         # Check for the sum of contents on each potential child pixel
         # If they will all contain >N counts, return True
         return all([sum(m[start + child_npix*i: start + child_npix*(i+1)]) >= N for i in range(4)])
-
+    
+    print('recursively combining count map')
     # Create the appropiate grid
     m_multi = HealpixMap.adaptive_moc_mesh(m.nside, split_fun)
 
@@ -52,11 +56,13 @@ def main(nested_map, N):
     print(f'writing MOC map {uniq_map_count} to disk...')
     m_multi.write_map(uniq_map_count)
 
-    print('converting to density map')
-    m_multi.density(True)
+    # I don't know what the built-in density function actually does
+    # hence this should be calculated manually at a later step
+    # print('converting to density map')
+    # m_multi.density(True)
 
-    print(f'writing MOC density map {uniq_map_dens} to disk...')
-    m_multi.write_map(uniq_map_dens)
+    # print(f'writing MOC density map {uniq_map_dens} to disk...')
+    # m_multi.write_map(uniq_map_dens)
 
 
 

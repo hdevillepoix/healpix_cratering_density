@@ -32,13 +32,18 @@ def create_map_from_scratch(ifile, ofile, **kwargs):
     tab = Table.read(ifile)
 
     # each crater counts as 1, but that could be different
-    fs = np.ones_like(tab[lon_key], dtype=np.uint8)
+    fs = np.ones_like(tab[lon_key], dtype=np.int16)
 
     # Go from HEALPix coordinates to indices
     print(f'converting lat/long to healpix indices...')
     indices = hp.ang2pix(nside, tab[lon_key]%360, tab[lat_key], nest=True, lonlat=True)
+    
+    tab['hpx_index'] = indices
+    catalogues_ofile = ifile.split('.')[0] + f'_catalogue_hpx{order}.fits'
+    print(f'saving catalogue with healpix assignment to {catalogues_ofile} ...')
+    tab.write(catalogues_ofile, overwrite=True)
 
-    hpxmap = np.zeros(npix, dtype=np.uint16)
+    hpxmap = np.zeros(npix, dtype=np.int16)
 
     # add up to pixels
     print(f'filling up the map...')
