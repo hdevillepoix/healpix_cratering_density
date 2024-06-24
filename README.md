@@ -46,8 +46,8 @@ see options using the help menu
 
 Here you need to choose the minimum count N each healpix needs to have.
 
-Example: assuming errors are dominated by the counting process, in order to get a density map with maximum ε% error.
-We need: √N/N = ε%
+Example: assuming errors are dominated by the counting process, in order to get a density map with maximum ε relative error.
+We need: √N/N < ε
 E.g. for a 10% maximum error on the map -> N=100.
 
 see options using the help menu
