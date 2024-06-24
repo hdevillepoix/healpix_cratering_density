@@ -1,19 +1,14 @@
-import os
 from copy import deepcopy
 
-import healpy as hp
-import numpy as np
-from astropy.table import Table
 import astropy.units as u
+from astropy.constants import R_earth
 
 # load up multi-order healpix library
 from mhealpy import HealpixMap
 
-MARS_RADIUS = 3389.5 * u.km
-
 # Planet characteristics
 # future improvement: take flatenning into account
-PLANETS = {'earth':{'radius': ASTRO_CONSTANTS.R_earth},
+PLANETS = {'earth':{'radius': R_earth},
             'mars':{'radius': 3389.5 * u.km},
             'venus':{'radius': 6051.8 * u.km},
             'moon':{'radius': 1737.4 * u.km}}

@@ -1,70 +1,71 @@
-# Optimal resolution cratering density using healpix
+# Optimal resolution crater studies using Multi-Order HEALPix Maps
 
-## problem
+## Problem
 
 Get the cratering density of a planetary surface, at optimal resolution.
 
 Optimal resolution means high resolution where there is enough data, lower when number of craters are sparse.
 
 
-## idea
+## Idea
 
-Healpix is designated for this job, except the Healpix primer doesn't allow multiple map orders to be mixed.
+Healpix is designated for this job, except that originally the Healpix primer doesn't allow multiple map orders to be mixed.
 
-There is a number of descriptions for doing this:
+For the needs of astronomical transients localisation on the sky, Healpix has now been extended to allow mixing different orders in same map Healpix.
+This allows varying the resolution of the global map (sky or planet surface) depending on the need or data available.
 
-https://emfollow.docs.ligo.org/userguide/tutorial/multiorder_skymaps.html
+Refs: 
+    - [Greco+ 22](https://arxiv.org/abs/2201.05191)
+    - [Multi-Order Coverage map IVOA Recommendation 2022-07-27](https://www.ivoa.net/documents/MOC/20220727/REC-moc-2.0-20220727.pdf)
 
-https://github.com/healpy/healpy/issues/642
 
 
-And one usefull implementation for creating these multi-order healpix maps: https://mhealpy.readthedocs.io/en/latest/
 
-## how-to
+## How-to
 
+The scripts in this repo facilitate creating such maps in a planetary surface context.
+Their purpose is to make a multi-resoluytion healpix maps from a catalogue of features (e.g. impact craters),
+where each pixel contains at least N (user-defined) features.
 
 ### requirements
 
 ```pip install numpy healpy mhealpy astropy```
 
 
-### start by making a normal NESTED map from your data
-
+### making a normal NESTED map from a catalogue
 
 Import thing is to choose the healpix order here:
- - Choose a number that is at least good to represent the maximum resolution you want (12 is good for 1e8 craters on Mars).
+ - Choose a number that is at least good to represent the maximum resolution you want (13 is good for 1e8 craters on Mars).
  - Doesn't matter if it is too high: it will automatically get reduced at the next step, but it is more ressource intensive to do so.
 
-
-see options usign the help menu
+see options using the help menu
 ```python make_nested_map.py -h```
 
 
+### convert the neste map to multi-resolution (uniq)
 
-### then convert your map to multi-resolution
+Here you need to choose the minimum count N each healpix needs to have.
 
-Here you need to choose the minimum count a healpix needs to have.
-Counting errors on the density should in general drive this choice.
+Example: assuming errors are dominated by the counting process, in order to get a density map with maximum ε% error.
+We need: √N/N = ε%
+E.g. for a 10% maximum error on the map -> N=100.
 
-√N/N = % std error
-
-So for a 10% maximum error on the map -> N=100.
- - 20% -> N=25
- - 1σ -> N=10
-
-
-see options usign the help menu
+see options using the help menu
 ```python create_MOC_map.py -h```
 
 
 This will create two outputs: one MOC `density` map, and one MOC `count` map.
 These maps are usually 10-100x smaller than the corresponding NESTED map.
 
+### convert a count map to a density one
+
+Trivial in the Healpix framework, but need to know the radius of the planet.
+
+see options using the help menu
+```python count_to_density.py -h```
+
 
 ## visualisation
 
-Only software that I could find that does a decent job is Aladin:
-
-download Aladin >11: https://aladin.u-strasbg.fr/java/nph-aladin.pl?frame=downloading
-
-Plots can also be made programatically with matplotlib (see examples in mhealpy doc), but it's bloody slow.
+- [Aladin >11](https://aladin.u-strasbg.fr/java/nph-aladin.pl?frame=downloading)
+- [Mhealpy](https://mhealpy.readthedocs.io/en/latest/tutorials/Intro.html#Plotting)

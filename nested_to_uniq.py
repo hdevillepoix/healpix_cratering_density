@@ -1,10 +1,6 @@
 import os
 import argparse
 
-import healpy as hp
-
-
-
 # load up multi-order healpix library
 from mhealpy import HealpixMap
 
@@ -18,15 +14,15 @@ def main(nested_map, N):
 
     m = HealpixMap.read_map(nested_map, density = False)
 
-    order = m.order
-    nside = hp.order2nside(order)
-    npix = hp.nside2npix(nside)
+    # order = m.order
+    # nside = hp.order2nside(order)
+    #npix = hp.nside2npix(nside)
     
     err_percent = 1./(N)**0.5*100
     err_percent_str = f'_{err_percent:.0f}pc-error'
     
     uniq_map_count = nested_map.replace('nested','uniq').replace('map','count_map' + err_percent_str)
-    #uniq_map_dens = nested_map.replace('nested','uniq').replace('map','density_map' + err_percent_str)
+    # uniq_map_dens = nested_map.replace('nested','uniq').replace('map','nativedensity_map' + err_percent_str)
 
 
     def split_fun(start, stop):
@@ -60,7 +56,6 @@ def main(nested_map, N):
     # hence this should be calculated manually at a later step
     # print('converting to density map')
     # m_multi.density(True)
-
     # print(f'writing MOC density map {uniq_map_dens} to disk...')
     # m_multi.write_map(uniq_map_dens)
 
