@@ -15,8 +15,8 @@ For the needs of astronomical transients localisation on the sky, Healpix has no
 This allows varying the resolution of the global map (sky or planet surface) depending on the need or data available.
 
 Refs: 
-    - [Greco+ 22](https://arxiv.org/abs/2201.05191)
-    - [Multi-Order Coverage map IVOA Recommendation 2022-07-27](https://www.ivoa.net/documents/MOC/20220727/REC-moc-2.0-20220727.pdf)
+ - [Greco+ 22](https://arxiv.org/abs/2201.05191)
+ - [Multi-Order Coverage map IVOA Recommendation 2022-07-27](https://www.ivoa.net/documents/MOC/20220727/REC-moc-2.0-20220727.pdf)
 
 
 
@@ -53,9 +53,6 @@ E.g. for a 10% maximum error on the map -> N=100.
 see options using the help menu
 ```python create_MOC_map.py -h```
 
-
-This will create two outputs: one MOC `density` map, and one MOC `count` map.
-These maps are usually 10-100x smaller than the corresponding NESTED map.
 
 ### convert a count map to a density one
 
